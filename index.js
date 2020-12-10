@@ -5,6 +5,8 @@ const {checkForPlaystationDirectRedirect} = require("./utils");
 
 /** Constants */
 let numTries = 1;
+let delay = 3;
+
 const playstationType = {
     "disc": {
         "id": 3005816,
@@ -21,10 +23,12 @@ const playstationType = {
     const choice = await promptly.choose("Which version would you like? (disc or digital)", ["disc", "digital"]);
     console.log(`Searching for PlayStation 5 ${choice} edition...`);
     
+    open(playstationType[choice].url);
+
     const onSuccess = () => {
         console.log("Found it! Opening queue now...");
         open(playstationType[choice].url);
     };
 
-    checkForPlaystationDirectRedirect(5000, onSuccess);
+    checkForPlaystationDirectRedirect(delay * 1000, onSuccess);
 })();
