@@ -5,7 +5,6 @@ const {checkForPlaystationDirectRedirect} = require("./utils");
 
 /** Constants */
 let numTries = 1;
-let delay = 3;
 
 const playstationType = {
     "disc": {
@@ -21,9 +20,13 @@ const playstationType = {
 /** Let's do this */
 (async function() {
     const choice = await promptly.choose("Which version would you like? (disc or digital)", ["disc", "digital"]);
-    console.log(`Searching for PlayStation 5 ${choice} edition...`);
-    
+    const delay = await promptly.prompt("In seconds, how frequently would you like to check the website? [default 3]", {default: "3"});
+
+    console.log(`Confirming that this script can open ${playstationType[choice].url}`)
+
     open(playstationType[choice].url);
+
+    console.log(`Searching for PlayStation 5 ${choice} edition...`);
 
     const onSuccess = () => {
         console.log("Found it! Opening queue now...");
